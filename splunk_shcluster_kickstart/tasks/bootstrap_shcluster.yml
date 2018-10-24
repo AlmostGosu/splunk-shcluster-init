@@ -16,7 +16,7 @@
       msg: "{{ search_head_uri }}"
 
 - name: Run a shell script to kickstart the captain
-  shell: "/opt/splunk/bin/splunk bootstrap shcluster-captain -servers_list \"{{ search_head_uri }}\" -auth admin:Splunk@dm1n9997"
+  shell: "/opt/splunk/bin/splunk bootstrap shcluster-captain -servers_list \"{{ search_head_uri }}\" -auth admin:{{ splunk_admin_pass }}"
   become: true
   args:
     executable: /bin/bash
