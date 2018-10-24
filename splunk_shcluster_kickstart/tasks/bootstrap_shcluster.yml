@@ -1,0 +1,28 @@
+---
+- name: Build search head list to initialize the captain
+ hosts: search_head
+ remote_user: ansible
+ vars:
+   inventory_file: ./inventory-ec2-single-site
+   search_head_uri: "{{ lookup('template', './bootstrap-sh-deployer.j2') }}"
+
+ tasks:
+   - name: dump array
+     debug:
+         msg: "{{ search_head_uri }}"
+
+- name: search_head_uri variable is set to
+  debug:
+      msg: "{{ search_head_uri }}"
+
+- name: Run a shell script to kickstart the captain
+  shell: "/opt/splunk/bin/splunk bootstrap shcluster-captain -servers_list \"{{ search_head_uri }}\" -auth admin:Splunk@dm1n9997"
+  become: true
+  args:
+    executable: /bin/bash
+
+- name: Restart splunkd on search head
+  service:
+    name: splunk
+    state: restarted
+  become: true

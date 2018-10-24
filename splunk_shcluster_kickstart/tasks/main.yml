@@ -1,0 +1,7 @@
+---
+- include: bootstrap_shcluster.yml
+  static: no
+  vars:
+    inventory_file: ./inventory-ec2-single-site
+    search_head_uri: "{{ lookup('template', './bootstrap-sh-deployer.j2') }}"
+  when: is_shcluster and deploy_indexer_cluster_master

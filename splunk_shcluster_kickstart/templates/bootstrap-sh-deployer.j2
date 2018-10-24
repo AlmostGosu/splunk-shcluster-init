@@ -1,0 +1,5 @@
+{%- set search_head_uri = [] %}
+{% for host in groups['search_head'] %}
+    {{ "https://" + hostvars[host]['ansible_nodename'] + ":8089" }}
+    {%- if not loop.last %}, {% endif -%}
+{%- endfor %}
